@@ -91,7 +91,7 @@ RANDOMIZE_DOWNLOAD_DELAY = True
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 ## Selenium ##
-from shutil import which
+#from shutil import which
 
 # SELENIUM_DRIVER_NAME = 'firefox'
 # SELENIUM_DRIVER_EXECUTABLE_PATH = which('geckodriver')
@@ -104,4 +104,4 @@ from shutil import which
 #     'scrapy_selenium.SeleniumMiddleware': 800
 # }
 
-from scrapy_selenium import SeleniumMiddleware
+#from scrapy_selenium import SeleniumMiddleware
