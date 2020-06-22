@@ -113,9 +113,30 @@ RANDOMIZE_DOWNLOAD_DELAY = True
 ################################################
 ### GENERAL SETTINGS FOR  LOGGING AND FEEDS  ###
 ################################################
-DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 ENCONDIG_FORMAT = 'utf-8'
-LOG_FILENAME_FORMAT = f'{datetime.now().strftime(DATETIME_FORMAT)}.txt'
+DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
+FILENAME_PATTERN = datetime.now().strftime(DATETIME_FORMAT)
+LOG_FILENAME_FORMAT = f'{FILENAME_PATTERN}.txt'
+
+CSV_FILENAME_FORMAT = f'{FILENAME_PATTERN}.csv'
+CSV_FIELDS_TO_PERSIST = [
+    # fields in the CSV file are printed in the order specified in the list
+    'url',
+    'listed_name',
+    'detailed_name',
+    'date',
+    'city',
+    'country',
+    'venue',
+    'duration',
+    'final_grade',
+    'total_reviews',
+    'attendees',
+    'exhibitors',
+    'hashtags',
+    'website',
+    'description',
+]
 
 ###  LOGGING  ###
 LOG_ENABLED = True  # this True only and it will display in stdout
@@ -132,3 +153,32 @@ if LOG_TO_FILE:
     # If True, the logs will just contain the root path.
     # If it is set to False then it displays the component responsible for the log output
     # LOG_SHORT_NAMES = False
+
+###  FEEDS  ###
+FEEDS = {
+    # CSV
+    pathlib.Path(f'/home/carlos/github/toronto_tradefest_scraper/csv/{CSV_FILENAME_FORMAT}'): {
+        'format': 'csv',
+        'encoding': ENCONDIG_FORMAT,
+        'store_empty': True,
+        'fields': CSV_FIELDS_TO_PERSIST,
+    },
+}
+
+FEED_STORAGES_BASE = {
+    '': 'scrapy.extensions.feedexport.FileFeedStorage',
+    'file': 'scrapy.extensions.feedexport.FileFeedStorage',
+    'stdout': 'scrapy.extensions.feedexport.StdoutFeedStorage',
+    's3': 'scrapy.extensions.feedexport.S3FeedStorage',
+    'ftp': 'scrapy.extensions.feedexport.FTPFeedStorage',
+}
+
+FEED_EXPORTERS_BASE = {
+    'json': 'scrapy.exporters.JsonItemExporter',
+    'jsonlines': 'scrapy.exporters.JsonLinesItemExporter',
+    'jl': 'scrapy.exporters.JsonLinesItemExporter',
+    'csv': 'scrapy.exporters.CsvItemExporter',
+    'xml': 'scrapy.exporters.XmlItemExporter',
+    'marshal': 'scrapy.exporters.MarshalItemExporter',
+    'pickle': 'scrapy.exporters.PickleItemExporter',
+}
