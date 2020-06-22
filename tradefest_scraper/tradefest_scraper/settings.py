@@ -119,14 +119,16 @@ LOG_FILENAME_FORMAT = f'{datetime.now().strftime(DATETIME_FORMAT)}.txt'
 
 ###  LOGGING  ###
 LOG_ENABLED = True  # this True only and it will display in stdout
-LOG_FILE = f'/home/carlos/github/toronto_tradefest_scraper/logs/{LOG_FILENAME_FORMAT}'
-LOG_ENCODING = ENCONDIG_FORMAT
-LOG_LEVEL = 'DEBUG'
-LOG_FORMAT = '%(asctime)s [%(name)s] %(levelname)s: %(message)s'
-LOG_DATEFORMAT = DATETIME_FORMAT
-# If True, all standard output (and error) of your process will be redirected to the log.
-# For example if you print('hello') it will appear in the Scrapy log.
-LOG_STDOUT = True  # default
-# If True, the logs will just contain the root path.
-# If it is set to False then it displays the component responsible for the log output
-# LOG_SHORT_NAMES = False
+LOG_TO_FILE = False  # if True: writes to logfile. if False: writes to stdout
+if LOG_TO_FILE:
+    LOG_FILE = f'/home/carlos/github/toronto_tradefest_scraper/logs/{LOG_FILENAME_FORMAT}'
+    LOG_ENCODING = ENCONDIG_FORMAT
+    LOG_LEVEL = 'DEBUG'
+    LOG_FORMAT = '%(asctime)s [%(name)s] %(levelname)s: %(message)s'
+    LOG_DATEFORMAT = DATETIME_FORMAT
+    # If True, all standard output (and error) of your process will be redirected to the log.
+    # For example if you print('hello') it will appear in the Scrapy log.
+    LOG_STDOUT = True  # default
+    # If True, the logs will just contain the root path.
+    # If it is set to False then it displays the component responsible for the log output
+    # LOG_SHORT_NAMES = False
