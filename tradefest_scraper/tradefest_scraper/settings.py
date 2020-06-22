@@ -8,6 +8,7 @@
 #     https://docs.scrapy.org/en/latest/topics/settings.html
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
+import logging
 
 BOT_NAME = "tradefest_scraper"
 
@@ -105,3 +106,13 @@ RANDOMIZE_DOWNLOAD_DELAY = True
 # }
 
 #from scrapy_selenium import SeleniumMiddleware
+
+### LOGGING  ###
+LOG_ENABLED = True  # this True only and it will display in stdout
+LOG_FILE = '~/github/toronto_tradefest_scraper/csv/log.txt'
+# LOG_ENCODING
+LOG_LEVEL = logging.CRITICAL
+# LOG_FORMAT = '%(levelname)s: %(message)s',
+# LOG_DATEFORMAT
+# LOG_STDOUT
+# LOG_SHORT_NAMES

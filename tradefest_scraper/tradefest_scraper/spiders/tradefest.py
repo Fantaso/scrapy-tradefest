@@ -100,6 +100,7 @@ class TradefestSpider(scrapy.Spider):
 
         SHOW_MORE_LINK = ".accent-link-g span"
         if is_text_hidden(response, SHOW_MORE_LINK):
+            self.logger.info(f'Event Description Hidden: {response.url}, {listed_name}')
             response_body = click_to_reveal_it(response.url, SHOW_MORE_LINK)
             selector = Selector(text=response_body)
             loader = ItemLoader(item=TradefestEventItem(), selector=selector)
