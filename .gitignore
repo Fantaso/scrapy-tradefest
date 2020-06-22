@@ -1,6 +1,6 @@
 ### User specific ###
-csv/  # where all csv files will be placed.
-logs/  # where all logs and feeds files will be placed.
+csv/
+logs/
 
 
 ### Selenium ###
