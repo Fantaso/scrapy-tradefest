@@ -146,7 +146,7 @@ if LOG_TO_FILE:
 ###  FEEDS  ###
 FEEDS = {
     # CSV
-    pathlib.Path(f'/home/carlos/github/toronto_tradefest_scraper/csv/{CSV_FILENAME_FORMAT}'): {
+    pathlib.Path(f'/home/carlos/github/toronto_tradefest_scraper/feeds/{CSV_FILENAME_FORMAT}'): {
         'format': 'csv',
         'encoding': ENCONDIG_FORMAT,
         'store_empty': True,
