@@ -9,6 +9,9 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 import logging
+import pathlib
+import time
+from datetime import datetime
 
 BOT_NAME = "tradefest_scraper"
 
@@ -92,7 +95,7 @@ RANDOMIZE_DOWNLOAD_DELAY = True
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 ## Selenium ##
-#from shutil import which
+# from shutil import which
 
 # SELENIUM_DRIVER_NAME = 'firefox'
 # SELENIUM_DRIVER_EXECUTABLE_PATH = which('geckodriver')
@@ -105,14 +108,25 @@ RANDOMIZE_DOWNLOAD_DELAY = True
 #     'scrapy_selenium.SeleniumMiddleware': 800
 # }
 
-#from scrapy_selenium import SeleniumMiddleware
+# from scrapy_selenium import SeleniumMiddleware
 
-### LOGGING  ###
+################################################
+### GENERAL SETTINGS FOR  LOGGING AND FEEDS  ###
+################################################
+DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
+ENCONDIG_FORMAT = 'utf-8'
+LOG_FILENAME_FORMAT = f'{datetime.now().strftime(DATETIME_FORMAT)}.txt'
+
+###  LOGGING  ###
 LOG_ENABLED = True  # this True only and it will display in stdout
-LOG_FILE = '~/github/toronto_tradefest_scraper/csv/log.txt'
-# LOG_ENCODING
-LOG_LEVEL = logging.CRITICAL
-# LOG_FORMAT = '%(levelname)s: %(message)s',
-# LOG_DATEFORMAT
-# LOG_STDOUT
-# LOG_SHORT_NAMES
+LOG_FILE = f'/home/carlos/github/toronto_tradefest_scraper/logs/{LOG_FILENAME_FORMAT}'
+LOG_ENCODING = ENCONDIG_FORMAT
+LOG_LEVEL = 'DEBUG'
+LOG_FORMAT = '%(asctime)s [%(name)s] %(levelname)s: %(message)s'
+LOG_DATEFORMAT = DATETIME_FORMAT
+# If True, all standard output (and error) of your process will be redirected to the log.
+# For example if you print('hello') it will appear in the Scrapy log.
+LOG_STDOUT = True  # default
+# If True, the logs will just contain the root path.
+# If it is set to False then it displays the component responsible for the log output
+# LOG_SHORT_NAMES = False
