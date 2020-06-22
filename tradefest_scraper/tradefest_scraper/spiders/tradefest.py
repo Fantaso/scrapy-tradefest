@@ -1,17 +1,15 @@
 # -*- coding: utf-8 -*-
-
 import scrapy
 from scrapy import Selector
 from scrapy.http import Response
-from scrapy.loader import ItemLoader
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver import FirefoxProfile
 from selenium.webdriver.firefox.options import Options
 
-from ..items import TradefestEventItem
+from ..loaders import TradefestLoader
 
-Response
+
 def is_present_on_page(resp: Response, css_selector):
     if resp.css(css_selector).get():
         return True
@@ -96,14 +94,14 @@ class TradefestSpider(scrapy.Spider):
             )
 
     def parse_event(self, response, listed_name, total_reviews):
-        loader = ItemLoader(item=TradefestEventItem(), response=response)
+        loader = TradefestLoader(response=response)
 
         SHOW_MORE_LINK = ".accent-link-g span"
         if is_text_hidden(response, SHOW_MORE_LINK):
             self.logger.info(f'Event Description Hidden: {response.url}, {listed_name}')
             response_body = click_to_reveal_it(response.url, SHOW_MORE_LINK)
             selector = Selector(text=response_body)
-            loader = ItemLoader(item=TradefestEventItem(), selector=selector)
+            loader = TradefestLoader(selector=selector)
 
         loader.add_value("listed_name", listed_name)
         loader.add_value("total_reviews", total_reviews)
