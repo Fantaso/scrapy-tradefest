@@ -56,11 +56,6 @@ ROBOTSTXT_OBEY = False
 #    'scrapy.extensions.telnet.TelnetConsole': None,
 # }
 
-# Configure item pipelines
-# See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-# ITEM_PIPELINES = {
-#    'tradefest_scraper.pipelines.TradefestScraperPipeline': 300,
-# }
 
 #######################
 ###  AUTO THROTTLE  ###
@@ -78,7 +73,9 @@ AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
 # Enable showing throttling stats for every response received:
 AUTOTHROTTLE_DEBUG = True
 
-# Enable and configure HTTP caching (disabled by default)
+######################
+###  HTTP CACHING  ###
+######################
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings
 # HTTPCACHE_ENABLED = True
 # HTTPCACHE_EXPIRATION_SECS = 0
@@ -86,21 +83,6 @@ AUTOTHROTTLE_DEBUG = True
 # HTTPCACHE_IGNORE_HTTP_CODES = []
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
-## Selenium ##
-# from shutil import which
-
-# SELENIUM_DRIVER_NAME = 'firefox'
-# SELENIUM_DRIVER_EXECUTABLE_PATH = which('geckodriver')
-# SELENIUM_DRIVER_ARGUMENTS = [
-#     '-headless',  # '--headless' if using chrome instead of firefox
-#     # 'start-maximized',
-# ]
-
-# DOWNLOADER_MIDDLEWARES = {
-#     'scrapy_selenium.SeleniumMiddleware': 800
-# }
-
-# from scrapy_selenium import SeleniumMiddleware
 
 ################################################
 ### GENERAL SETTINGS FOR  LOGGING AND FEEDS  ###
@@ -128,6 +110,7 @@ CSV_FIELDS_TO_PERSIST = [
     'hashtags',
     'website',
     'description',
+    'image_urls',
 ]
 
 ###  LOGGING  ###
@@ -174,3 +157,28 @@ FEED_EXPORTERS_BASE = {
     'marshal': 'scrapy.exporters.MarshalItemExporter',
     'pickle': 'scrapy.exporters.PickleItemExporter',
 }
+
+########################
+###  Media & Images  ###
+########################
+DOWNLOAD_TIMEOUT = 1200
+# if implementing more pipelines for specific spiders
+#   consider moving config values into the spider itself
+IMAGES_STORE = '/home/carlos/github/toronto_tradefest_scraper/media/'
+ITEM_PIPELINES = {
+    'tradefest_scraper.pipelines.TradefestImagesPipeline': 2,
+}
+
+###  SKIP IMAGES  ###
+# filter out images smaller than the minimum here stated
+# IMAGES_MIN_HEIGHT = 110
+# IMAGES_MIN_WIDTH = 110
+
+# IMAGES_EXPIRES = 30  # days
+MEDIA_ALLOW_REDIRECTS = True
+
+###  THUMBNAILS  ###
+# IMAGES_THUMBS = {
+#     'small': (50, 50),
+#     'big': (270, 270),
+# }
