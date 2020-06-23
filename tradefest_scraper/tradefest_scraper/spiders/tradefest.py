@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import time
+
 import scrapy
 from scrapy import Selector
 from scrapy.http import Response
@@ -56,6 +58,20 @@ def click_to_reveal_it(url, css_selector) -> webdriver.Firefox.page_source:
         browser.quit()
 
 
+def render_javascript_page(url, wait_secs) -> webdriver.Firefox.page_source:
+    """
+    Uses selenium to render the javascript in the browser.
+    """
+    options = Options()
+    options.add_argument("-headless")
+    browser = webdriver.Firefox(options=options)
+    browser.get(url)
+    time.sleep(wait_secs)
+    page_source = browser.page_source
+    browser.quit()
+    return page_source
+
+
 class TradefestSpider(scrapy.Spider):
     name = "tradefest"
     allowed_domains = ["tradefest.io"]
@@ -81,19 +97,22 @@ class TradefestSpider(scrapy.Spider):
         Going through the lists of furniture events in a paginated manner
         and sending the request to parse the details of the event.
         """
-        events = response.css("#results .ng-star-inserted .result").getall()
+        response_body = render_javascript_page(response.url, wait_secs=2)
+        selector = Selector(text=response_body)
+        events = selector.css("#results .ng-star-inserted .result")
         for event in events:
-            selector = Selector(text=event)
-            url = selector.css("a::attr(href)").get()
+            url = event.css("a::attr(href)").get()
+            image_url = event.css('.event-logo .ng-star-inserted::attr(src)').get()
             ctx = {
                 "listed_name": selector.css("strong::text").get(),
                 "total_reviews": "".join(selector.css("span.smaller-g::text").getall()),
+                'image_urls': image_url
             }
             yield scrapy.Request(
                 url=response.urljoin(url), callback=self.parse_event, cb_kwargs=ctx,
             )
 
-    def parse_event(self, response, listed_name, total_reviews):
+    def parse_event(self, response, listed_name, total_reviews, image_urls):
         loader = TradefestLoader(response=response)
 
         SHOW_MORE_LINK = ".accent-link-g span"
@@ -122,5 +141,9 @@ class TradefestSpider(scrapy.Spider):
         loader.add_value("city", where_when_how_long)
         loader.add_value("date", where_when_how_long)
         loader.add_value("duration", where_when_how_long)
+
+        # images
+        loader.add_value('image_urls', image_urls)
+        loader.add_value('image_name', listed_name)
 
         yield loader.load_item()
