@@ -1,7 +1,10 @@
-### User specific ###
+### Developer specific ###
 report/
+
+### Scraper specific ###
 feeds/
 logs/
+media/
 
 
 ### Selenium ###
