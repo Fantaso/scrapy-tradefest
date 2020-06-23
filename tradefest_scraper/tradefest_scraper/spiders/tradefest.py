@@ -12,18 +12,8 @@ from selenium.webdriver.firefox.options import Options
 from ..loaders import TradefestLoader
 
 
-def is_present_on_page(resp: Response, css_selector):
+def text_on_page(resp: Response, css_selector):
     if resp.css(css_selector).get():
-        return True
-
-
-def is_text_hidden(resp: Response, css_selector):
-    if is_present_on_page(resp, css_selector):
-        return True
-
-
-def is_venue_formatted_as_link(resp: Response, css_selector):
-    if is_present_on_page(resp, css_selector):
         return True
 
 
@@ -115,10 +105,10 @@ class TradefestSpider(scrapy.Spider):
     def parse_event(self, response, listed_name, total_reviews, image_urls):
         loader = TradefestLoader(response=response)
 
-        SHOW_MORE_LINK = ".accent-link-g span"
-        if is_text_hidden(response, SHOW_MORE_LINK):
-            self.logger.info(f'Event Description Hidden: {response.url}, {listed_name}')
-            response_body = click_to_reveal_it(response.url, SHOW_MORE_LINK)
+        show_more_text = ".accent-link-g span"
+        if text_on_page(response, show_more_text):
+            self.logger.info(f'Event description hidden: {response.url}, {listed_name}')
+            response_body = click_to_reveal_it(response.url, show_more_text)
             selector = Selector(text=response_body)
             loader = TradefestLoader(selector=selector)
 
