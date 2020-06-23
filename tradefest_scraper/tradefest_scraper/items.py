@@ -19,3 +19,8 @@ class TradefestItem(Item):
     exhibitors = scrapy.Field()
     final_grade = scrapy.Field()  # client requirement - equivalent to a "rating"
     total_reviews = scrapy.Field()
+
+    # media
+    image_urls = scrapy.Field()
+    images = scrapy.Field()
+    image_name = scrapy.Field()
