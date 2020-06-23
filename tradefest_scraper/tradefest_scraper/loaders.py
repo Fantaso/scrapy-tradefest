@@ -2,7 +2,7 @@
 import re
 
 from scrapy.loader import ItemLoader
-from scrapy.loader.processors import TakeFirst, MapCompose, Join
+from scrapy.loader.processors import TakeFirst, MapCompose, Join, Identity
 
 from .items import TradefestItem
 
@@ -57,10 +57,23 @@ def split_open_parenthesis(value):
     return value.split("(")
 
 
+# Others
 def extract_data_between_parenthesis(value):
     start = value.find("(") + 1
     end = value.find(")")
     return value[start:end]
+
+
+def safe_filename(value):
+    """
+    Some images' names contains '/'.
+    Making sure when file is saved locally
+    it does not create a directory if found '/'
+    """
+    SLASH = '/'
+    if SLASH in value:
+        return value.replace(SLASH, u"\u2215")
+    return value
 
 
 class TradefestLoader(ItemLoader):
@@ -80,3 +93,8 @@ class TradefestLoader(ItemLoader):
     attendees_in = MapCompose(str.strip, remove_html_tags, split_space_and_get_second)
     exhibitors_in = MapCompose(str.strip, remove_html_tags, split_space_and_get_fourth)
     total_reviews_in = MapCompose(str.strip, extract_data_between_parenthesis, split_space)
+
+    # media
+    image_urls_in = Identity()
+    image_urls_out = MapCompose()
+    image_name_in = MapCompose(safe_filename)
