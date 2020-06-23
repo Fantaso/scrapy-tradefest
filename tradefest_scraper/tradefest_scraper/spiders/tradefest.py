@@ -133,6 +133,9 @@ class TradefestSpider(scrapy.Spider):
         loader.add_css("venue", "p.ng-star-inserted :last-child::text")
         loader.add_css("website", ".description+ .accent-link-g::attr(href)")
 
+        # "how_many" and "where_when_how_long":
+        #   the html structure is not constant, so the cleaning process
+        #   is handle by the ItemLoader'a input & output processor.
         how_many = "".join(response.css(".tagline+ .ng-star-inserted").getall())
         loader.add_value("attendees", how_many)
         loader.add_value("exhibitors", how_many)
