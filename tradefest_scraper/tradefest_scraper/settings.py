@@ -13,6 +13,19 @@ USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Ge
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
 
+# BASE PATH
+ENCONDIG_FORMAT = 'utf-8'
+DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
+FILENAME_PATTERN = datetime.now().strftime(DATETIME_FORMAT)
+LOG_FILENAME_FORMAT = f'{FILENAME_PATTERN}.txt'
+CSV_FILENAME_FORMAT = f'{FILENAME_PATTERN}.csv'
+
+BASE = '/home/carlos/github/toronto_tradefest_scraper'
+# BASE = '/home/app/data'
+LOG_PATH = f'{BASE}/logs/{LOG_FILENAME_FORMAT}'
+FEEDS_PATH = f'{BASE}/feeds/{CSV_FILENAME_FORMAT}'
+IMAGES_PATH = f'{BASE}/media/'
+
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 
 # Configure a delay for requests for the same website (default: 0)
@@ -117,7 +130,7 @@ CSV_FIELDS_TO_PERSIST = [
 LOG_ENABLED = True  # this True only and it will display in stdout
 LOG_TO_FILE = False  # if True: writes to logfile. if False: writes to stdout
 if LOG_TO_FILE:
-    LOG_FILE = f'/home/carlos/github/toronto_tradefest_scraper/logs/{LOG_FILENAME_FORMAT}'
+    LOG_FILE = LOG_PATH
     LOG_ENCODING = ENCONDIG_FORMAT
     LOG_LEVEL = 'DEBUG'
     LOG_FORMAT = '%(asctime)s [%(name)s] %(levelname)s: %(message)s'
@@ -132,7 +145,7 @@ if LOG_TO_FILE:
 ###  FEEDS  ###
 FEEDS = {
     # CSV
-    pathlib.Path(f'/home/carlos/github/toronto_tradefest_scraper/feeds/{CSV_FILENAME_FORMAT}'): {
+    pathlib.Path(FEEDS_PATH): {
         'format': 'csv',
         'encoding': ENCONDIG_FORMAT,
         'store_empty': True,
@@ -164,7 +177,8 @@ FEED_EXPORTERS_BASE = {
 DOWNLOAD_TIMEOUT = 1200
 # if implementing more pipelines for specific spiders
 #   consider moving config values into the spider itself
-IMAGES_STORE = '/home/carlos/github/toronto_tradefest_scraper/media/'
+IMAGES_STORE = IMAGES_PATH
+# IMAGES_STORE = '/home/carlos/github/toronto_tradefest_scraper/media/'
 ITEM_PIPELINES = {
     'tradefest_scraper.pipelines.TradefestImagesPipeline': 2,
 }

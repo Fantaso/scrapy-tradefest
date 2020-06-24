@@ -94,8 +94,8 @@ class TradefestSpider(scrapy.Spider):
             url = event.css("a::attr(href)").get()
             image_url = event.css('.event-logo .ng-star-inserted::attr(src)').get()
             ctx = {
-                "listed_name": selector.css("strong::text").get(),
-                "total_reviews": "".join(selector.css("span.smaller-g::text").getall()),
+                "listed_name": event.css("strong::text").get(),
+                "total_reviews": "".join(event.css("span.smaller-g::text").getall()),
                 'image_urls': image_url
             }
             yield scrapy.Request(

@@ -1,4 +1,35 @@
 
+
+
+## Usage
+### Docker
+
+**Building image from repository**
+```bash
+docker build -t fantaso/scrapy_tradefest .
+```
+**Pulling image from Dockerhub**
+```bash
+docker pull fantaso/scrapy_tradefest .
+```
+
+**Running image**
+
+_```--rm``` just tells docker to erase the container automatically when scraping is finished_
+```bash
+docker run --rm -t fantaso/scrapy_tradefest
+```
+
+**Running image with binding volume to your local computer**
+
+_Used to sync the "feeds" and "media", which is where the scraper outputs the data and images being scrapped_
+
+**NOTE:** use an absolute path for the folder you want to bind to the container inner `data/` directory. e.g. /home/juan/data:/home/app/data
+```bash
+docker run --rm -v /path/to/directory/you/want/to/store/the/data:/home/app/data -t fantaso/scrapy_tradefest
+```
+
+
 ---
 #Install Selenium
 ###Firefox
