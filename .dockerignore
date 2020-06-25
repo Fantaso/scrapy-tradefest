@@ -1,0 +1,25 @@
+# developer specific
+feeds/
+logs/
+media/
+data/
+report/
+
+# selenium
+geckodriver*
+
+# project specific
+README.md
+
+# Docker
+.dockerignore
+Dockerfile
+
+# Repository
+.git
+.gitignore
+.gitmodules
+
+# Pycharm
+.idea
+
