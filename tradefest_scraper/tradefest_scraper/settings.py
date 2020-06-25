@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
+import os
 import pathlib
 from datetime import datetime
+
+# BASE PATH
+# BASE_LOCAL = '/home/carlos/github/toronto_tradefest_scraper'
+BASE = '/home/app/data'
 
 BOT_NAME = "tradefest_scraper"
 
@@ -12,19 +17,6 @@ USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Ge
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
-
-# BASE PATH
-ENCONDIG_FORMAT = 'utf-8'
-DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
-FILENAME_PATTERN = datetime.now().strftime(DATETIME_FORMAT)
-LOG_FILENAME_FORMAT = f'{FILENAME_PATTERN}.txt'
-CSV_FILENAME_FORMAT = f'{FILENAME_PATTERN}.csv'
-
-BASE = '/home/carlos/github/toronto_tradefest_scraper'
-# BASE = '/home/app/data'
-LOG_PATH = f'{BASE}/logs/{LOG_FILENAME_FORMAT}'
-FEEDS_PATH = f'{BASE}/feeds/{CSV_FILENAME_FORMAT}'
-IMAGES_PATH = f'{BASE}/media/'
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 
@@ -100,12 +92,13 @@ AUTOTHROTTLE_DEBUG = True
 ################################################
 ### GENERAL SETTINGS FOR  LOGGING AND FEEDS  ###
 ################################################
-ENCONDIG_FORMAT = 'utf-8'
 DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 FILENAME_PATTERN = datetime.now().strftime(DATETIME_FORMAT)
-LOG_FILENAME_FORMAT = f'{FILENAME_PATTERN}.txt'
 
-CSV_FILENAME_FORMAT = f'{FILENAME_PATTERN}.csv'
+LOG_PATH = f'{BASE}/logs/{FILENAME_PATTERN}.txt'
+FEEDS_PATH = f'{BASE}/feeds/{FILENAME_PATTERN}.csv'
+IMAGES_PATH = f'{BASE}/media/'
+
 CSV_FIELDS_TO_PERSIST = [
     # fields in the CSV file are printed in the order specified in the list
     'url',
@@ -131,7 +124,7 @@ LOG_ENABLED = True  # this True only and it will display in stdout
 LOG_TO_FILE = False  # if True: writes to logfile. if False: writes to stdout
 if LOG_TO_FILE:
     LOG_FILE = LOG_PATH
-    LOG_ENCODING = ENCONDIG_FORMAT
+    LOG_ENCODING = 'utf-8'
     LOG_LEVEL = 'DEBUG'
     LOG_FORMAT = '%(asctime)s [%(name)s] %(levelname)s: %(message)s'
     LOG_DATEFORMAT = DATETIME_FORMAT
@@ -147,7 +140,7 @@ FEEDS = {
     # CSV
     pathlib.Path(FEEDS_PATH): {
         'format': 'csv',
-        'encoding': ENCONDIG_FORMAT,
+        'encoding': 'utf-8',
         'store_empty': True,
         'fields': CSV_FIELDS_TO_PERSIST,
     },
