@@ -38,8 +38,10 @@ def click_to_reveal_it(url, css_selector) -> webdriver.Firefox.page_source:
     browser.get(url)
     try:
         # TODO: add wait implementation (research: staleness_of)
+        time.sleep(1)
         link = browser.find_element_by_css_selector(css_selector)
         webdriver.ActionChains(browser).move_to_element(link).click(link).perform()
+        time.sleep(1)
         return browser.page_source
 
     except NoSuchElementException:
