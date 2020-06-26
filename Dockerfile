@@ -11,7 +11,7 @@ ENV LANGUAGE en_US.UTF-8
 
 
 # OS: [dependencies]
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get -y install --no-install-recommends \
     python3 python3-pip \
     wget \
     # Firefox & Geckdriver Prerequisites
