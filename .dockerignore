@@ -6,7 +6,8 @@ data/
 report/
 
 # selenium
-geckodriver*
+**/geckodriver.log
+*.log
 
 # project specific
 README.md
@@ -22,4 +23,8 @@ Dockerfile
 
 # Pycharm
 .idea
+
+# python
+**/__pycache__
+*.pyc
 
