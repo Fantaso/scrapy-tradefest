@@ -26,17 +26,17 @@ RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.26.0/geckod
     && mv geckodriver /usr/bin/geckodriver  \
     && rm geckodriver-v0.26.0-linux64.tar.gz
 
-#  OS: [User]
+# OS: [User]
 RUN useradd -m app
 #USER app
 
-###  APP: [dependencies]
+
+# APP: [dependencies]
 COPY ./requirements.txt /home/app
 RUN pip3 install --no-cache-dir -r /home/app/requirements.txt
 
-###  APP: [repository]
+# APP: [repository]
 COPY ./tradefest_scraper /home/app
-
 
 
 #################################
