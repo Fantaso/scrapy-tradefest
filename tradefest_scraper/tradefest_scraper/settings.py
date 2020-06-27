@@ -4,8 +4,8 @@ import pathlib
 from datetime import datetime
 
 # BASE PATH
-# BASE_LOCAL = '/home/carlos/github/toronto_tradefest_scraper'
-BASE = '/home/app/data'
+BASE = '/home/carlos/github/toronto_tradefest_scraper'
+# BASE = '/home/app/output'
 
 BOT_NAME = "tradefest_scraper"
 
@@ -17,18 +17,6 @@ USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Ge
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
-
-# Configure maximum concurrent requests performed by Scrapy (default: 16)
-
-# Configure a delay for requests for the same website (default: 0)
-# See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
-# See also autothrottle settings and docs
-# DOWNLOAD_DELAY = 0.5
-# CONCURRENT_REQUESTS = 1
-# RANDOMIZE_DOWNLOAD_DELAY = True
-# The download delay setting will honor only one of:
-# CONCURRENT_REQUESTS_PER_DOMAIN = 16
-# CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
 # COOKIES_ENABLED = False
@@ -54,7 +42,6 @@ ROBOTSTXT_OBEY = False
 #    'tradefest_scraper.middlewares.TradefestScraperDownloaderMiddleware': 543,
 # }
 
-
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
 # EXTENSIONS = {
@@ -65,16 +52,16 @@ ROBOTSTXT_OBEY = False
 #######################
 ###  AUTO THROTTLE  ###
 #######################
-DOWNLOAD_DELAY = 0.25
+# DOWNLOAD_DELAY = 0.25
 # CONCURRENT_REQUESTS = 1
-CONCURRENT_REQUESTS_PER_DOMAIN = 1
+CONCURRENT_REQUESTS_PER_DOMAIN = 64
 # - The dynamic delay calculated will never:
 #       go less than DOWNLOAD_DELAY
 #       or more than AUTOTHROTTLE_MAX_DELAY
 AUTOTHROTTLE_ENABLED = True
-AUTOTHROTTLE_START_DELAY = 5
-AUTOTHROTTLE_MAX_DELAY = 60
-AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
+AUTOTHROTTLE_START_DELAY = 2
+AUTOTHROTTLE_MAX_DELAY = 15
+AUTOTHROTTLE_TARGET_CONCURRENCY = 16
 # Enable showing throttling stats for every response received:
 AUTOTHROTTLE_DEBUG = True
 
@@ -96,7 +83,9 @@ DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 FILENAME_PATTERN = datetime.now().strftime(DATETIME_FORMAT)
 
 LOG_PATH = f'{BASE}/logs/{FILENAME_PATTERN}.txt'
-FEEDS_PATH = f'{BASE}/feeds/{FILENAME_PATTERN}.csv'
+FEEDS_CSV_PATH = f'{BASE}/feeds/csv/{FILENAME_PATTERN}.csv'
+FEEDS_JSON_PATH = f'{BASE}/feeds/json/{FILENAME_PATTERN}.json'
+FEEDS_XML_PATH = f'{BASE}/feeds/xml/{FILENAME_PATTERN}.xml'
 IMAGES_PATH = f'{BASE}/media/'
 
 CSV_FIELDS_TO_PERSIST = [
@@ -121,28 +110,43 @@ CSV_FIELDS_TO_PERSIST = [
 
 ###  LOGGING  ###
 LOG_ENABLED = True  # this True only and it will display in stdout
-LOG_TO_FILE = False  # if True: writes to logfile. if False: writes to stdout
+LOG_TO_FILE = True  # if True: writes to logfile. if False: writes to stdout
 if LOG_TO_FILE:
     LOG_FILE = LOG_PATH
     LOG_ENCODING = 'utf-8'
     LOG_LEVEL = 'DEBUG'
     LOG_FORMAT = '%(asctime)s [%(name)s] %(levelname)s: %(message)s'
     LOG_DATEFORMAT = DATETIME_FORMAT
-    # If True, all standard output (and error) of your process will be redirected to the log.
-    # For example if you print('hello') it will appear in the Scrapy log.
+    # If True, all stdout & stderr of your process will be redirected to the log.
+    # example: if you print('hello') it will appear in the scrapy log.
     LOG_STDOUT = True  # default
     # If True, the logs will just contain the root path.
-    # If it is set to False then it displays the component responsible for the log output
+    # If False, it displays the component responsible for the log output.
     # LOG_SHORT_NAMES = False
 
 ###  FEEDS  ###
 FEEDS = {
     # CSV
-    pathlib.Path(FEEDS_PATH): {
+    pathlib.Path(FEEDS_CSV_PATH): {
         'format': 'csv',
         'encoding': 'utf-8',
         'store_empty': True,
         'fields': CSV_FIELDS_TO_PERSIST,
+    },
+    # JSON
+    FEEDS_JSON_PATH: {
+        'format': 'json',
+        'encoding': 'utf-8',
+        'store_empty': False,
+        'fields': CSV_FIELDS_TO_PERSIST,
+        'indent': 4,
+    },
+    # XML
+    FEEDS_XML_PATH: {
+        'format': 'xml',
+        'encoding': 'latin1',
+        'fields': CSV_FIELDS_TO_PERSIST,
+        'indent': 8,
     },
 }
 
@@ -167,11 +171,10 @@ FEED_EXPORTERS_BASE = {
 ########################
 ###  Media & Images  ###
 ########################
-DOWNLOAD_TIMEOUT = 1200
+DOWNLOAD_TIMEOUT = 30
 # if implementing more pipelines for specific spiders
 #   consider moving config values into the spider itself
 IMAGES_STORE = IMAGES_PATH
-# IMAGES_STORE = '/home/carlos/github/toronto_tradefest_scraper/media/'
 ITEM_PIPELINES = {
     'tradefest_scraper.pipelines.TradefestImagesPipeline': 2,
 }
@@ -181,11 +184,11 @@ ITEM_PIPELINES = {
 # IMAGES_MIN_HEIGHT = 110
 # IMAGES_MIN_WIDTH = 110
 
-# IMAGES_EXPIRES = 30  # days
+# IMAGES_EXPIRES = 5  # days
 MEDIA_ALLOW_REDIRECTS = True
 
 ###  THUMBNAILS  ###
-# IMAGES_THUMBS = {
-#     'small': (50, 50),
-#     'big': (270, 270),
-# }
+IMAGES_THUMBS = {
+    'small': (50, 50),
+    'medium': (68, 68),
+}
