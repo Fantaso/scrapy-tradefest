@@ -88,8 +88,9 @@ FEEDS_JSON_PATH = f'{BASE}/feeds/json/{FILENAME_PATTERN}.json'
 FEEDS_XML_PATH = f'{BASE}/feeds/xml/{FILENAME_PATTERN}.xml'
 IMAGES_PATH = f'{BASE}/media/'
 
-CSV_FIELDS_TO_PERSIST = [
-    # fields in the CSV file are printed in the order specified in the list
+FEED_EXPORT_FIELDS = [
+    # fields used to populate the files generated (csv, json, etc).
+    #   Fields are populated in the order specified here.
     'url',
     'listed_name',
     'detailed_name',
@@ -110,7 +111,7 @@ CSV_FIELDS_TO_PERSIST = [
 
 ###  LOGGING  ###
 LOG_ENABLED = True  # this True only and it will display in stdout
-LOG_TO_FILE = True  # if True: writes to logfile. if False: writes to stdout
+LOG_TO_FILE = False  # if True: writes to logfile. if False: writes to stdout
 if LOG_TO_FILE:
     LOG_FILE = LOG_PATH
     LOG_ENCODING = 'utf-8'
@@ -131,21 +132,18 @@ FEEDS = {
         'format': 'csv',
         'encoding': 'utf-8',
         'store_empty': True,
-        'fields': CSV_FIELDS_TO_PERSIST,
     },
     # JSON
     FEEDS_JSON_PATH: {
         'format': 'json',
         'encoding': 'utf-8',
         'store_empty': False,
-        'fields': CSV_FIELDS_TO_PERSIST,
         'indent': 4,
     },
     # XML
     FEEDS_XML_PATH: {
         'format': 'xml',
         'encoding': 'latin1',
-        'fields': CSV_FIELDS_TO_PERSIST,
         'indent': 8,
     },
 }

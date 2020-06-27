@@ -80,7 +80,7 @@ class TradefestSpider(scrapy.Spider):
                 url=f"https://tradefest.io/en/tag/furniture?page={page_num}",
                 callback=self.parse_events,
             )
-            for page_num in range(1, 7)
+            for page_num in range(1, 2)
         ]
         return start_urls
 
