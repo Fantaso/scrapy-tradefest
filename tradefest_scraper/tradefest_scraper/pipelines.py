@@ -5,9 +5,7 @@ from scrapy.pipelines.images import ImagesPipeline
 
 class TradefestImagesPipeline(ImagesPipeline):
     def get_media_requests(self, item, info):
-        """
-        Getting the custom name for the image file.
-        """
+        """Getting the custom name for the image file."""
         image_name = {'image_name': item.get('image_name')}
         media_requests = [
             Request(x, meta=image_name)
@@ -16,8 +14,11 @@ class TradefestImagesPipeline(ImagesPipeline):
         return media_requests
 
     def file_path(self, request, response=None, info=None):
-        """
-        Setting the custom name for the image file.
-        """
+        """Setting the custom name for the image file."""
         image_guid = request.meta.get('image_name')
         return 'images/%s.jpg' % (image_guid)
+
+    def thumb_path(self, request, thumb_id, response=None, info=None):
+        """Setting the custom name for the image file thumbnail."""
+        thumb_guid = request.meta.get('image_name')
+        return 'thumbs/%s/%s.jpg' % (thumb_id, thumb_guid)
