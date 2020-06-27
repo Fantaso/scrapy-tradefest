@@ -126,21 +126,17 @@ if LOG_TO_FILE:
     # LOG_SHORT_NAMES = False
 
 ###  FEEDS  ###
+FEED_STORE_EMPTY = True
 FEEDS = {
-    # CSV
     pathlib.Path(FEEDS_CSV_PATH): {
         'format': 'csv',
         'encoding': 'utf-8',
-        'store_empty': True,
     },
-    # JSON
     FEEDS_JSON_PATH: {
         'format': 'json',
         'encoding': 'utf-8',
-        'store_empty': False,
         'indent': 4,
     },
-    # XML
     FEEDS_XML_PATH: {
         'format': 'xml',
         'encoding': 'latin1',
