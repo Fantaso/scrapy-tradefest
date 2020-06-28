@@ -1,74 +1,118 @@
+<!-- logo -->
+<a href="https://www.fantaso.de">
+<img src="/readme/fantaso.png" align="right" />
+</a>
+
+<!-- header -->
+<h1 style="text-align: left; margin-top:0px;">
+  Convention & Expos Tradefest Scraper
+</h1>
+
+> Events scraper app with Scrapy and Selenium.
 
 
+<!-- build -->
+<!-- [![Build Status][travis-image]][travis-link] -->
 
-## Usage
-### Docker
 
-**Building image from repository**
-```bash
-docker build -t fantaso/scrapy_tradefest .
-```
-**Pulling image from Dockerhub**
-```bash
+Project consists to allow a user to scrape the "furniture" section of
+tradefest.io (platform to find conventions & expos events) using Scrapy as a
+framework to extract, transform and store data.
+
+<br><br>
+
+---
+## Index:
+- #### Usage: with Docker
+    1. Getting and Running the docker image
+    2. What data are we scraping and where is stored
+
+- #### Information:
+- #### Maintainer
+
+<br><br>
+
+
+---
+## Usage: with Docker ![container][docker]
+#### 1. Getting and Running the docker image
+
+image is hosted in docker hub registry freely available [fantaso/scrapy_tradefest](https://hub.docker.com/repository/docker/fantaso/scrapy_tradefest)
+
+Pulling image from Dockerhub
+    
+```sh
 docker pull fantaso/scrapy_tradefest .
 ```
 
-**Running image**
+or directly run it
 
-_```--rm``` just tells docker to erase the container automatically when scraping is finished_
-```bash
-docker run --rm -t fantaso/scrapy_tradefest
+```sh
+mkdir -p output/logs \
+&& docker run --rm -v "$(pwd)"/output:/home/app/output -t fantaso/scrapy_tradefest
 ```
 
-**Running image with binding volume to your local computer**
+- Here `-v "$(pwd)"/output:/home/app/output` we are just binding a volume to synchronize 
+a folder `output/` in our computer and mapping it to a folder inside the docker
+container `/home/app/output` where the data scraped will be stored. 
+- Because of permissions and docker problems binding to sync the folder in the docker 
+with our local machine. **we need to create first the folder with `mkdir -p output/logs`
+to avoid problems running the docker**.
 
-_Used to sync the "feeds" and "media", which is where the scraper outputs the data and images being scrapped_
-
-**NOTE:** use an absolute path for the folder you want to bind to the container inner `data/` directory. e.g. /home/juan/data:/home/app/data
-```bash
-docker run --rm -v /path/to/directory/you/want/to/store/the/data:/home/app/data -t fantaso/scrapy_tradefest
-```
-
+**NOTE:** This is what we get when we want to run a container binding a volume
+to our local machine using a non root user to run the container.
 
 ---
-#Install Selenium
-###Firefox
-```bash
-wget https://github.com/mozilla/geckodriver/releases/download/v0.26.0/geckodriver-v0.26.0-linux64.tar.gz
-sudo tar -xvf geckodriver-v0.26.0-linux64.tar.gz
+#### 2.  What data are we scraping and where is stored
 
-sudo mv geckodriver /usr/local/bin/
-sudo chmod +x /usr/local/bin/geckodriver
-```
+We want to store the data scraped in our machine. So, we are binding a folder inside
+the docker container (`output/`) to a folder inside our local machine (PC were docker container runs).
+    
+Output folder contains:
+    
+- `feeds` contains all the scraped data in different formats (csv, xml, json)
+- `logs`  contains the scraping log files
+- `media` contains the images we wanted to scraped as well as automatically generated
+          thumbnails from the images scraped in different sizes (small, medium).
+          
+**NOTE:** all data files generated for logs and feeds are named as the current time of
+docker runbase on the current time of run
+
 
 <br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
 
----
-#Logs
-###Chrome
-**Chrome installation did NOT work**
+## Information:
+| Technology Stack |  |  |
+| :- | :-: | :- |
+| Python                    | ![back-end][python]                   | Back-End |
+| Scrapy                    | ![scraper framework][scrapy]          | Scraper Framework |
+| Selenium                  | ![browser automation][selenium]       | Browser Automation |
+| Docker                    | ![container][docker]                  | Container |
 
-```bash
-wget https://chromedriver.storage.googleapis.com/83.0.4103.39/chromedriver_linux64.zip
-unzip chromedriver_linux64.zip
-chmod +x chromedriver
+<br><br>
 
-sudo mv -f chromedriver /usr/local/share/chromedriver
-sudo ln -s /usr/local/share/chromedriver /usr/local/bin/google-chrome
-sudo ln -s /usr/local/share/chromedriver /usr/bin/google-chrome
-```
 
-### Instaling Chrome
-```bash
-wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | sudo tee /etc/apt/sources.list.d/google-chrome.list
-sudo apt-get update 
-sudo apt-get install google-chrome-stable
-```
+## Maintainer
+Get in touch -–> [fantaso][fantaso]
+
+
+
+<!-- Links -->
+<!-- Profiles -->
+[github-profile]: https://github.com/fantaso/
+[linkedin-profile]: https://www.linkedin.com/
+[fantaso]: https://github.com/fantaso/
+<!-- Extra -->
+
+<!-- Repos -->
+[github-repo]: https://github.com/Fantaso/tradefest_scraper
+
+<!-- Builds -->
+[travis-link]: https://travis-ci.org/
+[travis-image]: https://travis-ci.org/
+
+<!-- images -->
+[python]: readme/python.png
+[scrapy]: readme/scrapy.png
+[selenium]: readme/selenium.png
+[docker]: readme/docker.png
