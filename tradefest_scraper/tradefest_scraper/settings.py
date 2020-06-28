@@ -4,8 +4,8 @@ import pathlib
 from datetime import datetime
 
 # BASE PATH
-BASE = '/home/carlos/github/toronto_tradefest_scraper'
-# BASE = '/home/app/output'
+# BASE = '/home/carlos/github/toronto_tradefest_scraper'
+BASE = '/home/app/output'
 
 BOT_NAME = "tradefest_scraper"
 
@@ -111,7 +111,7 @@ FEED_EXPORT_FIELDS = [
 
 ###  LOGGING  ###
 LOG_ENABLED = True  # this True only and it will display in stdout
-LOG_TO_FILE = False  # if True: writes to logfile. if False: writes to stdout
+LOG_TO_FILE = True  # if True: writes to logfile. if False: writes to stdout
 if LOG_TO_FILE:
     LOG_FILE = LOG_PATH
     LOG_ENCODING = 'utf-8'
