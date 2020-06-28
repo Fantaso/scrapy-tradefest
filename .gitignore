@@ -2,6 +2,7 @@
 report/
 
 ### Scraper specific ###
+output/
 feeds/
 logs/
 media/
