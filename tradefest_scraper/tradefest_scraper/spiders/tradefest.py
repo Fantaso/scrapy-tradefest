@@ -65,6 +65,7 @@ def render_javascript_page(url, wait_secs) -> webdriver.Firefox.page_source:
 
 
 class TradefestSpider(scrapy.Spider):
+    PAGE_NUM = 7
     name = "tradefest"
     allowed_domains = ["tradefest.io"]
 
@@ -80,7 +81,7 @@ class TradefestSpider(scrapy.Spider):
                 url=f"https://tradefest.io/en/tag/furniture?page={page_num}",
                 callback=self.parse_events,
             )
-            for page_num in range(1, 2)
+            for page_num in range(1, self.PAGE_NUM)
         ]
         return start_urls
 
