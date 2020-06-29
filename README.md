@@ -42,7 +42,7 @@ image is hosted in docker hub registry freely available [fantaso/scrapy_tradefes
 Pulling image from Dockerhub
     
 ```sh
-docker pull fantaso/scrapy_tradefest .
+docker pull fantaso/scrapy_tradefest
 ```
 
 or directly run it
