@@ -75,8 +75,26 @@ Output folder contains:
 - `media` contains the images we wanted to scraped as well as automatically generated
           thumbnails from the images scraped in different sizes (small, medium).
           
-**NOTE:** all data files generated for logs and feeds are named as the current time of
-docker runbase on the current time of run
+**NOTE:** all data files generated for logs and feeds are named or formatted
+with the current time when the docker image is run. `e.g: "2020-06-28 23:47:18.csv"```
+
+Fields to be scraped from each event or expo:
+- `url`: url of the detailed event
+- `listed_name`: name of the event in the paginated list
+- `detailed_name`: name of the event in the detailed event page
+- `date`: date of the event
+- `city`: city where the event is taken place
+- `country`: country where the event is taken place
+- `venue`: location or place where the event is taken place
+- `duration`: time duration of the event
+- `final_grade`: rating of the event (client naming requirement!)
+- `total_reviews`: quantity of reviewers (related to the "final_grade")
+- `attendees`: quantity of people that attended the event
+- `exhibitors`: quantity of exhibitors that were part of the event
+- `hashtags`: tags of the event
+- `website`: official website of the event. 
+- `description`: descriptions of the event
+- `image_urls`: url for the logo (image) of the of the event
 
 
 <br>
